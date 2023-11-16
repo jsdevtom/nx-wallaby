@@ -2,9 +2,15 @@ import { TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
 import { NxWelcomeComponent } from './nx-welcome.component';
 import { RouterTestingModule } from '@angular/router/testing';
+jest.mock('flowbite');
+import { initFlowbite } from 'flowbite';
+
 
 describe('AppComponent', () => {
+
   beforeEach(async () => {
+    (initFlowbite as unknown as jest.SpyInstance).mockReturnValue(undefined);
+
     await TestBed.configureTestingModule({
       imports: [AppComponent, NxWelcomeComponent, RouterTestingModule],
     }).compileComponents();
@@ -24,4 +30,8 @@ describe('AppComponent', () => {
     const app = fixture.componentInstance;
     expect(app.title).toEqual('nx-wallaby');
   });
+
+  it('should have called initFlowbite', () => {
+    expect(initFlowbite).toHaveBeenCalled();
+  })
 });
